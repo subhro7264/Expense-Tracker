@@ -7,6 +7,8 @@ import NavBar from "./components/Layout/Navbar";
 import AuthContext from "./components/store/auth-context";
 import AuthForm from "./components/Auth/AuthForm";
 import ForgotPassFrom from "./components/Auth/ForgotPassFrom";
+import Profile from "./components/Pages/Profile";
+
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -20,13 +22,13 @@ function App() {
           exact
           path="/"
           element={isLoggedIn ? <Home /> : <Navigate to="/auth" replace />}
-        />
+       /> 
         isLoggedIn && <Route path="/auth" element={<AuthForm />} />
         <Route
             path="/auth/ForgotPassWord"
             element={<ForgotPassFrom />}
           />
-       
+       <Route path="//profile" element={<Profile/>}/>
       
       </Routes>
     </Fragment>
