@@ -1,15 +1,16 @@
-import { useState, useRef, useContext, useEffect, Fragment } from "react";
-// import { useNavigate, Link } from "react-router-dom";
+import { useState, useRef, useContext,  Fragment } from "react";
+import { useNavigate,Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import classes from "./AuthForm.module.css";
-// import CartContext from "../store/cart-context";
+
+import AuthContext from "../store/auth-context";
 
 
 const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  // const authCtx = useContext(CartContext);
-  // const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -36,7 +37,7 @@ const AuthForm = () => {
     const enteredPassword = passwordInputRef.current.value;
     setEmail(enteredEmail);
     setIsLoading(true);
-    // authCtx.email = email;
+    authCtx.email = email;
     let url;
     if (isLogin) {
       url =
@@ -79,8 +80,8 @@ const AuthForm = () => {
       const email = data.email;
       const token = data.idToken;
       const endpoint = `/${email.replace(/\.|@/g, "")}`;
-      // authCtx.login(token, endpoint);
-      // navigate("/", { replace: true });
+      authCtx.login(token, endpoint);
+      navigate("/", { replace: true });
     } catch (err) {
       alert(err.message);
     } finally {
@@ -128,11 +129,11 @@ const AuthForm = () => {
                 <Spinner animation="border" role="status"></Spinner>
               </div>
             )}
-            {/* <div>
+            <div>
               <Link to="ForgotPassWord" target="_blank">
                 Reset Password
               </Link>
-            </div> */}
+            </div>
 
             <button
               type="button"
