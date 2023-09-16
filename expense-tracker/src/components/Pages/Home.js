@@ -11,7 +11,7 @@ const Home = () => {
     {isLoggedIn && (
               <Button className='ms-auto md-5' variant="outline-success" >
                 
-                 <Link to="profile" target="_blank">
+                 <Link to="profile" >
                  Complete profile
               </Link>
               </Button>
