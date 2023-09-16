@@ -12,7 +12,8 @@ const Profile = () => {
   const profilePicRef = useRef();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-
+  const verifyEmail = useRef();
+  const [isVerified, setIsVerified] = useState(false);
   const getProfileData = useCallback(async () => {
     try {
       const response = await fetch(
@@ -29,8 +30,10 @@ const Profile = () => {
       );
       const data = await response.json();
       console.log(data);
+      setIsVerified(data.users[0].emailVerified);
       fullNameRef.current.value = data.users[0].displayName;
       profilePicRef.current.value = data.users[0].photoUrl;
+      verifyEmail.current.value = data.users[0].email;
     } catch (error) {
       // Handle the error here
       console.error("Error fetching profile data:", error);
@@ -41,6 +44,33 @@ const Profile = () => {
     console.log("hello");
     getProfileData();
   }, [getProfileData]);
+
+
+
+
+//this function  will verify email
+async function verifyHandler() {
+  const res = await fetch(
+    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDzG7xWkD186fKUg_yhjslT2FShKXhEDPI",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        requestType: "VERIFY_EMAIL",
+        idToken: localStorage.getItem("token"),
+      }),
+    }
+  );
+  const data = await res.json();
+  console.log(data);
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -89,7 +119,15 @@ const Profile = () => {
   return (
     <Fragment>
       <div className="user-profile-form-container">
+      
         <h1>Contact Details</h1>
+        {!isVerified && (
+        <div >
+          <label htmlFor="">Email:</label>
+          <input ref={verifyEmail} type="email" />
+          <button onClick={verifyHandler}>verify</button>
+        </div>
+      )}
         <Form onSubmit={submitHandler} className="user-profile-form">
           <Form.Group controlId="fullName">
             <Form.Label>Full Name</Form.Label>
