@@ -20,16 +20,7 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // useEffect(() => {
-  //   // const logoutTimer =
-  //   setTimeout(() => {
-  //     authCtx.logout();
-  //     navigate("/auth", { replace: true });
-  //   }, 5 * 60 * 1000);
-  //   // return () => {
-  //   //   clearTimeout(logoutTimer);
-  //   // };
-  // });
+
 
   const submitHandler = async (e) => {
     e.preventDefault();
