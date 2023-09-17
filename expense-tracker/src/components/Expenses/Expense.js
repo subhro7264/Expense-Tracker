@@ -19,6 +19,7 @@ const Expense = (props) => {
   ));
 
 
+
   const tableHeaderStyle = {
     backgroundColor: "#007BFF", 
     color: "white", 

@@ -6,25 +6,46 @@ const Expenses = (props) => {
   const descriptionRef = useRef();
   const optionRef = useRef();
 
-  const submitHandler = (e) => {
+  const submitHandler = async(e) => {
 e.preventDefault();
 const amount=amountRef.current.value;
 const description=descriptionRef.current.value;
 const option=optionRef.current.value;
 
-const expense={
-  id:Math.random().toString(),
-  amount:amount,
-  description:description,
-  option:option,
+const expensesArray = 
+  {
+    id: Math.random().toString(),
+    amount: amount,
+    description: description,
+    option: option,
+  };
 
-}
-console.log( 'this expense:', expense)
-props.onAdd(expense)
+console.log( 'this expense:', expensesArray)
+props.onAdd(expensesArray)
 amountRef.current.value=" ";
 descriptionRef.current.value=" ";
 optionRef.current.value=" ";
-  };
+
+
+
+const response = await fetch(
+  "https://react-1ee49-default-rtdb.firebaseio.com/expense.json",
+  {
+    method: "POST",
+    body: JSON.stringify(expensesArray
+      
+    ),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }
+);
+const data = await response.json();
+console.log(data);
+ }
+
+
+
 
   return (
     <Fragment>
