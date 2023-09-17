@@ -32,11 +32,15 @@ const NavBar = ({ onShowCart }) => {
                 About
               </Nav.Link>
             )}
+            {isLoggedIn &&(
+              <Nav.Link as={NavLink} to="/Add-Expenses">Add Expense</Nav.Link>
+            )}
             {isLoggedIn && (
               <Nav.Link as={NavLink} to="/contactUs">
                 Contact Us
               </Nav.Link>
             )}
+
           </Nav>
           <Nav>
             {!isLoggedIn && (
@@ -49,7 +53,8 @@ const NavBar = ({ onShowCart }) => {
                 Logout
               </Button>
             )}
-           
+          
+        
           </Nav>
         </Navbar.Collapse>
       </Container>
