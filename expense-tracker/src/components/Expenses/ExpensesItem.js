@@ -22,6 +22,7 @@ const ExpensesItem = (props) => {
       }
 
       const data = await response.json();
+     
 
       if (data) {
         // Convert the Firebase response into an array
@@ -30,6 +31,7 @@ const ExpensesItem = (props) => {
           ...data[key],
         }));
         setExpenses(expensesArray);
+        
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -82,7 +84,15 @@ const ExpensesItem = (props) => {
 
   return (
     <Fragment>
-      <table style={{ width: "100%", borderCollapse: "collapse", margin: "2rem" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            <th style={tableHeaderStyle}>Amount</th>
+            <th style={tableHeaderStyle}>Description</th>
+            <th style={tableHeaderStyle}>Option</th>
+            <th style={tableHeaderStyle}>Actions</th>
+          </tr>
+        </thead>
         <tbody>
           {expenses.map((expense) => (
             <tr key={expense.id}>
