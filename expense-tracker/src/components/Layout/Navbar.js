@@ -53,8 +53,7 @@ const NavBar = ({ onShowCart }) => {
                 Logout
               </Button>
             )}
-          
-        
+
           </Nav>
         </Navbar.Collapse>
       </Container>
