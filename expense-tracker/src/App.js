@@ -1,18 +1,20 @@
 import "./App.css";
-import { Fragment, useContext } from "react";
+import { Fragment} from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import {  useSelector } from 'react-redux';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Pages/Home";
 import NavBar from "./components/Layout/Navbar";
-import AuthContext from "./components/store/auth-context";
+
 import AuthForm from "./components/Auth/AuthForm";
 import ForgotPassFrom from "./components/Auth/ForgotPassFrom";
 import Profile from "./components/Pages/Profile";
 import Expense from "./components/Expenses/Expense";
 
 function App() {
-  const authCtx = useContext(AuthContext);
-  const isLoggedIn = authCtx.isLoggedIn;
+  const token = useSelector((state) => state.auth.token);
+  const isLoggedIn = !!token;
+
   const body = {
     backgroundColor: "#282c34 ",
 

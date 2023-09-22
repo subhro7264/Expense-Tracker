@@ -1,9 +1,12 @@
 import React, { Fragment, useEffect, useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { initialExpenses, updateTotal, editExpense, removeExpense,addExpense } from "../../store/expenses";
 
-const ExpensesItem = (props) => {
+const ExpensesItem = () => {
   const [expenses, setExpenses] = useState([]);
   const [editId, setEditId] = useState(null);
-
+  const email = localStorage.getItem("endpoint");
+  const dispatch = useDispatch();
   const tableHeaderStyle = {
     backgroundColor: "#007BFF",
     color: "white",
@@ -18,7 +21,7 @@ const ExpensesItem = (props) => {
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://react-1ee49-default-rtdb.firebaseio.com/expense.json"
+        `https://react-1ee49-default-rtdb.firebaseio.com/${email}/expense.json`
       );
 
       if (!response.ok) {
@@ -33,12 +36,22 @@ const ExpensesItem = (props) => {
           id: key,
           ...data[key],
         }));
+        const prices = expensesArray.map((item) => item.amount);
+        const initialTotal = prices.reduce((pre, cur) => {
+          return +pre + +cur;
+        }, 0);
         setExpenses(expensesArray);
+        if (data.status === 200) {
+          
+          // dispatch(addExpense(expensesArray));
+        }
+        dispatch(initialExpenses(expensesArray)); 
+        dispatch(updateTotal(initialTotal));
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, []);
+  }, [dispatch, email]);
 
   useEffect(() => {
     fetchData();
@@ -47,17 +60,20 @@ const ExpensesItem = (props) => {
   /*------------------------------------>DELETE DATA FROM FIREBASE<---------------------------------------- */
   const handleDelete = async (id) => {
     try {
-      await fetch(
-        `https://react-1ee49-default-rtdb.firebaseio.com/expense/${id}.json`,
+      const resp = await fetch(
+        `https://react-1ee49-default-rtdb.firebaseio.com/${email}/expense/${id}.json`,
         {
           method: "DELETE",
         }
       );
 
       // Remove the deleted expense from the state
-      setExpenses((prevExpenses) =>
-        prevExpenses.filter((expense) => expense.id !== id)
-      );
+      if (resp.status === 200) {
+        setExpenses((prevExpenses) =>
+          prevExpenses.filter((expense) => expense.id !== id)
+        );
+        dispatch(removeExpense(id));
+      }
     } catch (error) {
       console.error("Error deleting data:", error);
     }
@@ -71,10 +87,9 @@ const ExpensesItem = (props) => {
   /*------------------------------------>EDIT DATA FROM FIREBASE<---------------------------------------- */
 
   const handleSaveEdit = async (editedExpense) => {
-
     try {
-      await fetch(
-        `https://react-1ee49-default-rtdb.firebaseio.com/expense/${editedExpense.id}.json`,
+      const resp = await fetch(
+        `https://react-1ee49-default-rtdb.firebaseio.com/${email}/expense/${editedExpense.id}.json`,
         {
           method: "PUT",
           body: JSON.stringify(editedExpense),
@@ -85,12 +100,15 @@ const ExpensesItem = (props) => {
       );
 
       // Update the edited expense in the state
-      setExpenses((prevExpenses) =>
-        prevExpenses.map((expense) =>
-          expense.id === editedExpense.id ? editedExpense : expense
-        )
-      );
-   
+      if (resp.status === 200) {
+        setExpenses((prevExpenses) =>
+          prevExpenses.map((expense) =>
+            expense.id === editedExpense.id ? editedExpense : expense
+          )
+        );
+        dispatch(editExpense(editedExpense)); // Dispatch the edited expense
+        setEditId(null);
+      }
     } catch (error) {
       console.error("Error editing data:", error);
     }
@@ -114,14 +132,14 @@ const ExpensesItem = (props) => {
                 {editId === expense.id ? (
                   <input
                     type="number"
-                    value={expense.amount}
+                    value={expense.amount} 
                     onChange={(e) =>
                       handleSaveEdit({
                         ...expense,
-                        amount: Number(e.target.value),
+                        amount: Number(e.target.value), 
                       })
                     }
-                    onBlur={() => setEditId(null)} // Add onBlur event to save when input loses focus
+                    onBlur={() => setEditId(null)}
                   />
                 ) : (
                   expense.amount
@@ -138,7 +156,7 @@ const ExpensesItem = (props) => {
                         description: e.target.value,
                       })
                     }
-                    onBlur={() => setEditId(null)} // Add onBlur event to save when input loses focus
+                    onBlur={() => setEditId(null)}
                   />
                 ) : (
                   expense.description
@@ -155,7 +173,7 @@ const ExpensesItem = (props) => {
                         option: e.target.value,
                       })
                     }
-                    onBlur={() => setEditId(null)} // Add onBlur event to save when input loses focus
+                    onBlur={() => setEditId(null)}
                   />
                 ) : (
                   expense.option
@@ -167,8 +185,7 @@ const ExpensesItem = (props) => {
                     <button onClick={() => handleSaveEdit(expense)}>
                       Save
                     </button>
-                    <button onClick={() => setEditId(null)}>Cancel</button>{" "}
-                    {/* Add a cancel button */}
+                    <button onClick={() => setEditId(null)}>Cancel</button>
                   </>
                 ) : (
                   <>

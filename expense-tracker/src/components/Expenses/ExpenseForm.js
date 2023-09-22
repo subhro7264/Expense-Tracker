@@ -1,11 +1,14 @@
 import React, { Fragment, useRef } from "react";
 import { Form, Button, Col, Container, Row } from "react-bootstrap";
+import { addExpense} from "../../store/expenses";
+import { useDispatch } from "react-redux";
 
 const Expenses = (props) => {
   const amountRef = useRef();
   const descriptionRef = useRef();
   const optionRef = useRef();
-
+  const email = localStorage.getItem("endpoint")
+  const dispatch =useDispatch();
   const submitHandler = async (e) => {
     e.preventDefault();
     const amount = amountRef.current.value;
@@ -25,7 +28,7 @@ const Expenses = (props) => {
     optionRef.current.value = " ";
 
     const response = await fetch(
-      "https://react-1ee49-default-rtdb.firebaseio.com/expense.json",
+      `https://react-1ee49-default-rtdb.firebaseio.com/${email}/expense.json`,
       {
         method: "POST",
         body: JSON.stringify(expensesArray),
@@ -35,7 +38,11 @@ const Expenses = (props) => {
       }
     );
     const data = await response.json();
-    console.log(data);
+    console.log(data.name);
+
+      const severItem = { ...expensesArray, id:data.name };
+      dispatch(addExpense(severItem));
+  
   };
 
   return (

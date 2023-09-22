@@ -25,11 +25,16 @@ const Profile = () => {
   //   navigate("/auth", { replace: true });
   // };
 
+
+
+
   /*---------------------------------------------------->getProfileData<------------------------------------ */
+
+  const url="https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDzG7xWkD186fKUg_yhjslT2FShKXhEDPI"
   const getProfileData = useCallback(async () => {
     try {
-      const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDzG7xWkD186fKUg_yhjslT2FShKXhEDPI",
+      const response = await fetch(url
+        ,
         {
           method: "POST",
           headers: {
@@ -53,7 +58,7 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    console.log("hello");
+ 
     getProfileData();
   }, [getProfileData]);
 
