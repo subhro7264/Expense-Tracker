@@ -39,7 +39,6 @@ const Expenses = (props) => {
     );
     const data = await response.json();
     console.log(data.name);
-
       const severItem = { ...expensesArray, id:data.name };
       dispatch(addExpense(severItem));
   

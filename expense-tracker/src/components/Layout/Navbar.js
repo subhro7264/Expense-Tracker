@@ -2,7 +2,8 @@ import React, { Fragment} from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import {  useSelector,useDispatch } from 'react-redux';
-import { logout } from '../../store/auth'
+import { logout } from '../../store/auth';
+
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -56,8 +57,9 @@ const NavBar = () => {
                 Logout
               </Button>
             )}
-
+         
           </Nav>
+         
         </Navbar.Collapse>
       </Container>
     </Navbar>

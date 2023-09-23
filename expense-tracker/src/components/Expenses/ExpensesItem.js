@@ -41,10 +41,7 @@ const ExpensesItem = () => {
           return +pre + +cur;
         }, 0);
         setExpenses(expensesArray);
-        if (data.status === 200) {
-          
-          // dispatch(addExpense(expensesArray));
-        }
+      
         dispatch(initialExpenses(expensesArray)); 
         dispatch(updateTotal(initialTotal));
       }
@@ -107,7 +104,7 @@ const ExpensesItem = () => {
           )
         );
         dispatch(editExpense(editedExpense)); // Dispatch the edited expense
-        setEditId(null);
+    
       }
     } catch (error) {
       console.error("Error editing data:", error);

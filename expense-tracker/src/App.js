@@ -16,20 +16,19 @@ function App() {
   const isLoggedIn = !!token;
 
   const body = {
-    backgroundColor: "#282c34 ",
-
+    background: "#ffffff ",
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
     // alignItems: 'center',
     // justifyContent: 'center',
 
-    color: "white",
+    color: "black",
   };
   return (
     <Fragment>
       <NavBar />
-     
+    
       <div style={body}>
         <Routes>
           <Route
