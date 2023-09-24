@@ -10,7 +10,7 @@ const expenseSlice = createSlice({
   name: "expenses",
   initialState,
   reducers: {
-    activePremium(state) {
+    activatePremium(state) {
       state.isActive = true;
     },
     addExpense(state, action) {
@@ -51,7 +51,7 @@ export const {
   editExpense,
   updateTotal,
   initialExpenses,
-  activePremium,
+  activatePremium,
 } = expenseSlice.actions;
 
 export default expenseSlice.reducer;

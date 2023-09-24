@@ -1,7 +1,7 @@
 import "./App.css";
-import { Fragment} from "react";
+import { Fragment } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import {  useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Pages/Home";
 import NavBar from "./components/Layout/Navbar";
@@ -13,23 +13,14 @@ import Expense from "./components/Expenses/Expense";
 
 function App() {
   const token = useSelector((state) => state.auth.token);
+  const darkMode = useSelector((state) => state.theme.darkMode);
   const isLoggedIn = !!token;
 
-  const body = {
-    background: "#ffffff ",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    // alignItems: 'center',
-    // justifyContent: 'center',
-
-    color: "black",
-  };
   return (
     <Fragment>
-      <NavBar />
-    
-      <div style={body}>
+      <div className={`App ${darkMode ? "dark" : "light"}`}>
+        <NavBar />
+
         <Routes>
           <Route
             exact
@@ -39,9 +30,10 @@ function App() {
           isLoggedIn && <Route path="/auth" element={<AuthForm />} />
           <Route path="/auth/ForgotPassWord" element={<ForgotPassFrom />} />
           <Route path="//profile" element={<Profile />} />
-          isLoggedIn&& !Profile && <Route path="/Add-Expenses" element={ <Expense />}/>
+          isLoggedIn && !Profile && 
+         <Route path="/Add-Expenses" element={<Expense />} />
+          {/* isLoggedIn && <Route  path="/darkMode" element={ } /> */}
         </Routes>
-        
       </div>
     </Fragment>
   );

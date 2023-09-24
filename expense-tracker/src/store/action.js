@@ -1,20 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+// src/features/themeSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState={isDark:false, isLight:true}
-
-const actionSlice=createSlice({
-    name: 'action',
-    initialState,
-    reducers: {
-        darkMode:(state)=>{
-            state.isDark=!state.darkMode;;
-        },
-        lightMode:(state)=>{
-           state.isLight=!state.isLight;
-        }
-    }
+const themeSlice = createSlice({
+  name: 'theme',
+  initialState: {
+    darkMode: false,
+  },
+  reducers: {
+    toggleDarkMode: (state) => {
+      state.darkMode = !state.darkMode;
+    },
+  },
 });
 
-
-export const {darkMode,lightMode}=actionSlice.actions;
-export default actionSlice.reducer;
+export const { toggleDarkMode } = themeSlice.actions;
+export default themeSlice.reducer;
