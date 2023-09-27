@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { initialExpenses, updateTotal, editExpense, removeExpense,addExpense } from "../../store/expenses";
-
+import { initialExpenses, updateTotal, editExpense, removeExpense, } from "../../store/expenses";
+import { Button } from "react-bootstrap";
 const ExpensesItem = () => {
   const [expenses, setExpenses] = useState([]);
   const [editId, setEditId] = useState(null);
@@ -103,7 +103,7 @@ const ExpensesItem = () => {
             expense.id === editedExpense.id ? editedExpense : expense
           )
         );
-        dispatch(editExpense(editedExpense)); // Dispatch the edited expense
+        dispatch(editExpense(editedExpense)); 
     
       }
     } catch (error) {
@@ -127,13 +127,8 @@ const ExpensesItem = () => {
             <tr key={expense.id}>
               <td style={tableHeaderStyle}>
                 {editId === expense.id ? (
-                  <input
-                    type="number"
-                    value={expense.amount} 
-                    onChange={(e) =>
-                      handleSaveEdit({
-                        ...expense,
-                        amount: Number(e.target.value), 
+                  <input type="number" value={expense.amount} onChange={(e) =>handleSaveEdit({ ...expense,
+                    amount: Number(e.target.value), 
                       })
                     }
                     onBlur={() => setEditId(null)}
@@ -179,17 +174,17 @@ const ExpensesItem = () => {
               <td style={tableHeaderStyle}>
                 {editId === expense.id ? (
                   <>
-                    <button onClick={() => handleSaveEdit(expense)}>
+                    <Button  variant="success" onClick={() => handleSaveEdit(expense)}>
                       Save
-                    </button>
-                    <button onClick={() => setEditId(null)}>Cancel</button>
+                    </Button>
+                    <Button   variant="warning" onClick={() => setEditId(null)}>Cancel</Button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEdit(expense.id)}>Edit</button>
+                    <Button variant="warning" onClick={() => handleEdit(expense.id)}>Edit</Button>
                   </>
                 )}
-                <button onClick={() => handleDelete(expense.id)}>Delete</button>
+                <Button variant="danger"  onClick={() => handleDelete(expense.id)}>Delete</Button>
               </td>
             </tr>
           ))}

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   items: [],
   totalAmount: 0,
-  isActive: false, // Add isActive to the initial state
+  isActive: false, 
 };
 
 const expenseSlice = createSlice({

@@ -9,8 +9,9 @@ const NavBar = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
   const totalAmount = useSelector((state) => state.expense.totalAmount);
- 
+  const isActive =useSelector((state) => state.expense.isActive);
   const isLoggedIn = !!token;
+  const active=!!isActive;
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
@@ -33,23 +34,19 @@ const NavBar = () => {
                   Home
                 </Nav.Link>
               )}
-
-              {isLoggedIn && (
-                <Nav.Link as={NavLink} to="/about">
-                  About
-                </Nav.Link>
-              )}
               {isLoggedIn && (
                 <Nav.Link as={NavLink} to="/Add-Expenses">
                   Add Expense
                 </Nav.Link>
               )}
-              {isLoggedIn && (
-                <Nav.Link as={NavLink} to="/contactUs">
-                  Contact Us
+
+     {isLoggedIn && (
+                <Nav.Link as={NavLink} to="/profilePage">
+                  Profile
                 </Nav.Link>
               )}
-            </Nav>
+              
+            </Nav> 
             <Nav>
               {!isLoggedIn && (
                 <Nav.Link as={NavLink} to="/auth">
@@ -63,8 +60,8 @@ const NavBar = () => {
               )}
             </Nav>
             <Nav>
-              {/* {totalAmount>10000&&<Themes/>} */}
-              <Themes/>
+              {active&&<Themes/>}
+              {/* <Themes/> */}
               </Nav>
           </Navbar.Collapse>
         </Container>

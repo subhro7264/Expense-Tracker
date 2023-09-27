@@ -10,6 +10,7 @@ import AuthForm from "./components/Auth/AuthForm";
 import ForgotPassFrom from "./components/Auth/ForgotPassFrom";
 import Profile from "./components/Pages/Profile";
 import Expense from "./components/Expenses/Expense";
+import ProfilePage from "./components/Pages/profilePage";
 
 function App() {
   const token = useSelector((state) => state.auth.token);
@@ -32,8 +33,10 @@ function App() {
           <Route path="//profile" element={<Profile />} />
           isLoggedIn && !Profile && 
          <Route path="/Add-Expenses" element={<Expense />} />
-          {/* isLoggedIn && <Route  path="/darkMode" element={ } /> */}
+      
+         isLoggedIn && <Route  path="/profilePage" element={<ProfilePage/> } /> 
         </Routes>
+       
       </div>
     </Fragment>
   );

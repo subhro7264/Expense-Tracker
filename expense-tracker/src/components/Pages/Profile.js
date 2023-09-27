@@ -1,30 +1,21 @@
-import React, {
-
-  useRef,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
+import React, {useRef,useState,useCallback, useEffect,} from "react";
 // import { useNavigate} from 'react-router-dom'
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
-// import AuthContext from "../store/auth-context";
+
+import {  useDispatch } from "react-redux";
+import {toggleProfile} from '../../store/action'
 
 const Profile = () => {
-  // const authCtx = useContext(AuthContext);
-  // const isLoggedIn = authCtx.isLoggedIn;
   const fullNameRef = useRef();
   const profilePicRef = useRef();
   const verifyEmail = useRef();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  // const [img ,setImg]=useState('');
 
-  // const navigate = useNavigate();
-  // const logoutHandler = () => {
-  //   authCtx.logout();
-  //   navigate("/auth", { replace: true });
-  // };
 
+ const dispatch=useDispatch();
 
 
 
@@ -45,17 +36,22 @@ const Profile = () => {
           }),
         }
       );
+      if(response.ok){
+        dispatch(toggleProfile())
+      }
       const data = await response.json();
       console.log(data);
 
       setIsVerified(data.users[0].emailVerified);
       fullNameRef.current.value = data.users[0].displayName;
       profilePicRef.current.value = data.users[0].photoUrl;
+      // setImg(data.users[0].photoUrl);
       verifyEmail.current.value = data.users[0].email;
+     
     } catch (error) {
       console.error("Error fetching profile data:", error);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
  
@@ -122,7 +118,7 @@ const Profile = () => {
   };
 
   const mainCon={
-    backgroundColor:' #282c34',
+    backgroundColor:' #fe7f2d',
     borderRadius: "5px",
     boxShadow:' 0 2px 4px rgba(0, 0, 0, 0.1)',
     WebkitBoxShadow: '3px 3px 5px 6px white',
@@ -161,6 +157,7 @@ const Profile = () => {
                     type="url"
                     placeholder="Enter a valid profile photo URL"
                     ref={profilePicRef}
+                    
                     required
                   />
                 </Form.Group>
@@ -184,6 +181,7 @@ const Profile = () => {
                 Logout
               </Button>
             )} */}
+            {/* <img  src={img}  alt="this is a img of subhro"   /> */}
             </div>
           </Col>
         </Row>
