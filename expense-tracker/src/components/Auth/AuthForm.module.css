@@ -6,9 +6,9 @@
   max-width: 25rem;
   height: 100%;
 
-  border-radius: 6px; /* Rounded corners */
+  border-radius: 6px; 
   /* background: linear-gradient(to right,#FF006E, #5d067c); Background color */
-  background-color: rgba(4, 195, 87, 0.562);
+  background-color: rgba(218, 215, 26, 0.868);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.46); /* Box shadow for a slight elevation */
   padding: 1rem; /* Padding inside the form */
   text-align: center; /* Center align the form contents */
