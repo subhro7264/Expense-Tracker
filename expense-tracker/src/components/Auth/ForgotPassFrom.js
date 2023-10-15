@@ -65,13 +65,13 @@ const ForgotPassFrom = (props) => {
                       />
                     </Form.Group>
                     <div className="text-center">
-                      {" "}
+                      
                       {/* Center the button */}
                       <Button
                         variant="danger"
                         type="submit"
                         className="m-5"
-                        // disabled={isLoading} 
+                        disabled={isLoading} 
                       >
                         {isLoading ? (
                           <Spinner animation="border" size="sm"></Spinner>

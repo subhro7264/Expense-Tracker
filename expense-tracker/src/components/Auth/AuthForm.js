@@ -1,43 +1,37 @@
-import { useState, useRef, useContext,  Fragment } from "react";
+import { useState, useRef,  Fragment } from "react";
 import { useNavigate,Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import classes from "./AuthForm.module.css";
-
-import AuthContext from "../store/auth-context";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../store/auth';
 
 const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const authCtx = useContext(AuthContext);
+ 
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const dispatch = useDispatch();
+  // const token = useSelector((state) => state.auth.token);
+  // const emails = useSelector((state) => state.auth.email);
+  
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // useEffect(() => {
-  //   // const logoutTimer =
-  //   setTimeout(() => {
-  //     authCtx.logout();
-  //     navigate("/auth", { replace: true });
-  //   }, 5 * 60 * 1000);
-  //   // return () => {
-  //   //   clearTimeout(logoutTimer);
-  //   // };
-  // });
+
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    setEmail(enteredEmail);
+    // setEmail(enteredEmail);
     setIsLoading(true);
-    authCtx.email = email;
+   
     let url;
     if (isLogin) {
       url =
@@ -80,7 +74,8 @@ const AuthForm = () => {
       const email = data.email;
       const token = data.idToken;
       const endpoint = `/${email.replace(/\.|@/g, "")}`;
-      authCtx.login(token, endpoint);
+      dispatch(login({ token, endpoint }));
+      
       navigate("/", { replace: true });
     } catch (err) {
       alert(err.message);
@@ -152,5 +147,4 @@ const AuthForm = () => {
     </Fragment>
   );
 };
-
 export default AuthForm;
