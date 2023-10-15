@@ -1,15 +1,17 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment} from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
+import {  useSelector,useDispatch } from 'react-redux';
+import { logout } from '../../store/auth'
 
-import AuthContext from "../store/auth-context";
-
-const NavBar = ({ onShowCart }) => {
+const NavBar = () => {
   const navigate = useNavigate();
-  const authCtx = useContext(AuthContext);
-  const isLoggedIn = authCtx.isLoggedIn;
+  const token = useSelector((state) => state.auth.token);
+  const isLoggedIn = !!token;
+  const dispatch = useDispatch();
+
   const logoutHandler = () => {
-    authCtx.logout();
+    dispatch(logout());
     navigate("/auth", { replace: true });
   };
 
@@ -17,12 +19,13 @@ const NavBar = ({ onShowCart }) => {
     <Fragment>
     <Navbar bg="dark" variant="dark" expand="md">
       <Container>
+      <Navbar.Brand as={NavLink} to="/">Subhro</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-        <Navbar.Brand as={NavLink} to="/">Subhro</Navbar.Brand>
+       
           <Nav className="me-auto">
             {isLoggedIn && (
-              <Nav.Link exact as={NavLink} to="/">
+              <Nav.Link  as={NavLink}  exact to="/" >
                 Home
               </Nav.Link>
             )}
@@ -32,11 +35,15 @@ const NavBar = ({ onShowCart }) => {
                 About
               </Nav.Link>
             )}
+            {isLoggedIn &&(
+              <Nav.Link as={NavLink} to="/Add-Expenses">Add Expense</Nav.Link>
+            )}
             {isLoggedIn && (
               <Nav.Link as={NavLink} to="/contactUs">
                 Contact Us
               </Nav.Link>
             )}
+
           </Nav>
           <Nav>
             {!isLoggedIn && (
@@ -49,7 +56,7 @@ const NavBar = ({ onShowCart }) => {
                 Logout
               </Button>
             )}
-           
+
           </Nav>
         </Navbar.Collapse>
       </Container>
